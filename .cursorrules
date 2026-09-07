@@ -1,0 +1,31 @@
+# .cursorrules — Module 11: Upgradeable Proxies (UUPS & Transparent)
+
+## MODULE OVERVIEW
+Focus on building gas-optimized upgradeable proxy patterns (UUPS & ERC-1967 Transparent) ensuring strict storage collision avoidance, initializers protection, and access-controlled logic upgrades using Foundry and Solidity 0.8.24.
+
+---
+
+## 1. TECHNICAL CONSTRAINTS & STACK
+
+- **Compiler Version:** Strictly `pragma solidity 0.8.24;` (no floating pragmas).
+- **Tooling:** Foundry (`forge` for unit testing, storage layout inspect via `forge inspect`, and upgrade simulations).
+- **Standards:** Implement EIP-1967 storage slots (`bytes32(uint256(keccak256("eip1967.proxy.implementation")) - 1)`) and UUPS upgrade mechanics.
+- **Initialization:** Use `Initializable` pattern (strictly disable constructors using `_disableInitializers()`).
+
+---
+
+## 2. CODING & SECURITY RULES
+
+- **Storage Collision Prevention:** Maintain explicit storage gaps (`uint256[50] __gap;`) in base implementation contracts to reserve slots for future upgrades.
+- **Function Clashes Guard:** Handle transparent proxy admin vs. user execution paths or delegate upgrade authorization in UUPS via `_authorizeUpgrade(address newImplementation)`.
+- **Custom Errors:** Use explicit custom errors (`error InvalidImplementation()`, `error AlreadyInitialized()`, `error UnauthorizedUpgrade()`, `error DelegateCallFailed()`).
+- **Delegatecall Execution:** Execute proxy routing exclusively via low-level `delegatecall` inside fallback assembly block preserving `msg.sender` and `msg.value`.
+
+---
+
+## 3. TESTING REQUIREMENTS
+
+- **Foundry Unit Tests:** Test initial deployment -> state mutation -> contract upgrade -> verification of state persistence across implementation versions.
+- **Storage Layout Validation:** Verify layout compatibility using `forge inspect <Contract> storage-layout`.
+- **Unauthorized Upgrade Tests:** Assert that non-admin accounts cannot trigger `upgradeToAndCall()` or manipulate logic pointers.
+- **Fuzzing Tests:** Fuzz state variables before and after upgrade routines to verify zero data corruption.
