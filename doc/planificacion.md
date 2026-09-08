@@ -1,6 +1,6 @@
 # Planificación — Módulo 11: Upgradeable Proxies (UUPS & Transparent)
 
-**Estado:** Fase **0** ✅ completada. Fases **1–6** pendientes de autorización.  
+**Estado:** Fases **0–1** ✅ completadas. Fases **2–6** pendientes de autorización.  
 **Regla de avance:** cada fase requiere **autorización explícita** del responsable antes de empezar.
 
 ---
@@ -124,7 +124,7 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 | Fase | Nombre | Estado | Autorización |
 |------|--------|--------|--------------|
 | 0 | Setup Foundry + estructura | ✅ Completada | ✅ Autorizada |
-| 1 | Core ERC-1967 + `delegatecall` | ⏳ Pendiente | ❌ Esperando |
+| 1 | Core ERC-1967 + `delegatecall` | ✅ Completada | ✅ Autorizada |
 | 2 | Transparent Proxy + `ProxyAdmin` | ⏳ Pendiente | ❌ Esperando |
 | 3 | UUPS + `Initializable` | ⏳ Pendiente | ❌ Esperando |
 | 4 | Implementaciones BoxV1 / BoxV2 + gaps | ⏳ Pendiente | ❌ Esperando |
@@ -150,7 +150,7 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 
 ---
 
-### Fase 1 — Core ERC-1967 + delegatecall
+### Fase 1 — Core ERC-1967 + delegatecall ✅
 
 **Objetivo:** proxy mínimo que enruta calldata a la implementación.
 
@@ -160,6 +160,8 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 4. Validar `implementation != address(0)` → `InvalidImplementation`.
 
 **Criterio de salida:** llamada a través del proxy persiste estado en la dirección del proxy.
+
+**Hecho:** `ERC1967Proxy`, `ProxyErrors`, mock `CounterLogic`, suite `test/ERC1967Proxy.t.sol` (slot EIP-1967, persistencia, `msg.value`, init data, errores). Stub `Placeholder` eliminado.
 
 ---
 
@@ -278,8 +280,8 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 
 ## 12. Próximo paso
 
-**Fase 1** (Core ERC-1967 + `delegatecall`) lista para arrancar cuando la autorices.
+**Fase 2** (Transparent Proxy + `ProxyAdmin`) lista para arrancar cuando la autorices.
 
-> Respuesta esperada para continuar: *“Autorizo Fase 1”* (o la fase que indiques).
+> Respuesta esperada para continuar: *“Autorizo Fase 2”* (o la fase que indiques).
 
 **Nota:** usa `~/.foundry/bin/forge` (o antepón `$HOME/.foundry/bin` al `PATH`); el `forge` de nvm/npm no es Foundry.
