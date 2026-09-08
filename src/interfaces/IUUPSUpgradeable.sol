@@ -11,5 +11,5 @@ interface IUUPSUpgradeable {
      * @param newImplementation Nueva lógica UUPS-compatible.
      * @param data Calldata de migración; vacío si no hay llamada.
      */
-    function upgradeToAndCall(address newImplementation, bytes memory data) external payable;
+    function upgradeToAndCall(address newImplementation, bytes calldata data) external payable;
 }

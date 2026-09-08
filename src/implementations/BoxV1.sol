@@ -63,7 +63,9 @@ contract BoxV1 is Initializable, UUPSUpgradeable, IBox {
      * @inheritdoc UUPSUpgradeable
      */
     function _authorizeUpgrade(address) internal view override {
-        if (msg.sender != owner) {
+        // Cache SLOAD de `owner` (1 lectura).
+        address owner_ = owner;
+        if (msg.sender != owner_) {
             revert UnauthorizedUpgrade();
         }
     }

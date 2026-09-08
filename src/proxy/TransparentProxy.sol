@@ -7,23 +7,24 @@ import {ITransparentProxy} from "../interfaces/ITransparentProxy.sol";
 /**
  * @title TransparentProxy
  * @notice Proxy ERC-1967 con separación admin / usuario (transparent proxy pattern).
- * @dev Si `msg.sender == admin`: solo `upgradeToAndCall` / `changeAdmin` (dispatch en fallback).
- *      Si no: `delegatecall` a la implementación (incluso si el selector coincide con admin).
+ * @dev Admin en `immutable` (sin SLOAD en hot path) + slot EIP-1967 escrito una vez (compatibilidad).
+ *      Cambio de control: transferir ownership del `ProxyAdmin`, no `changeAdmin` en el proxy.
  */
 contract TransparentProxy is ERC1967Proxy {
     /**
-     * @dev Slot ERC-1967 de admin: `keccak256("eip1967.proxy.admin") - 1`.
+     * @dev Slot ERC-1967 de admin (precomputado).
      */
-    bytes32 internal constant ADMIN_SLOT = bytes32(uint256(keccak256("eip1967.proxy.admin")) - 1);
+    // solhint-disable-next-line private-vars-leading-underscore
+    bytes32 internal constant ADMIN_SLOT = 0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103;
+
+    /// @dev Admin inmutable para el routing (ahorra ~2100 gas vs SLOAD en frío / ~100 en caliente por call).
+    address private immutable _adminAddress;
 
     /// @dev Selector de `upgradeToAndCall(address,bytes)`.
     bytes4 private constant UPGRADE_TO_AND_CALL_SELECTOR = ITransparentProxy.upgradeToAndCall.selector;
 
-    /// @dev Selector de `changeAdmin(address)`.
-    bytes4 private constant CHANGE_ADMIN_SELECTOR = ITransparentProxy.changeAdmin.selector;
-
     /**
-     * @notice Emitido al cambiar el admin EIP-1967.
+     * @notice Emitido al fijar el admin EIP-1967 (constructor).
      * @param previousAdmin Admin anterior.
      * @param newAdmin Nuevo admin.
      */
@@ -32,31 +33,35 @@ contract TransparentProxy is ERC1967Proxy {
     /**
      * @notice Despliega el proxy con lógica, admin y setup opcional.
      * @param implementation_ Contrato de lógica.
-     * @param admin_ Dirección admin (debe ser `ProxyAdmin` u otro contrato dedicado).
+     * @param admin_ Dirección admin (debe ser `ProxyAdmin` dedicado).
      * @param data Calldata de inicialización vía `delegatecall`.
      */
     constructor(address implementation_, address admin_, bytes memory data) payable ERC1967Proxy(implementation_, data) {
-        _setAdmin(admin_);
+        if (admin_ == address(0)) {
+            revert UnauthorizedUpgrade();
+        }
+        _adminAddress = admin_;
+        assembly {
+            sstore(ADMIN_SLOT, admin_)
+        }
+        emit AdminChanged(address(0), admin_);
     }
 
     /**
-     * @notice Lee el admin desde el slot EIP-1967.
+     * @notice Lee el admin (immutable — misma dirección que el slot EIP-1967 post-deploy).
      * @return Dirección del admin actual.
      */
     function admin() external view returns (address) {
-        return _admin();
+        return _adminAddress;
     }
 
     /**
-     * @dev Si el caller es admin, despacha upgrade/changeAdmin; si no, delegatecall transparente.
+     * @dev Si el caller es admin, solo `upgradeToAndCall`; si no, delegatecall transparente.
      */
     function _fallback() internal override {
-        if (msg.sender == _admin()) {
-            bytes4 sig = msg.sig;
-            if (sig == UPGRADE_TO_AND_CALL_SELECTOR) {
+        if (msg.sender == _adminAddress) {
+            if (msg.sig == UPGRADE_TO_AND_CALL_SELECTOR) {
                 _dispatchUpgradeToAndCall();
-            } else if (sig == CHANGE_ADMIN_SELECTOR) {
-                _dispatchChangeAdmin();
             } else {
                 revert UnauthorizedUpgrade();
             }
@@ -71,38 +76,5 @@ contract TransparentProxy is ERC1967Proxy {
     function _dispatchUpgradeToAndCall() private {
         (address newImplementation, bytes memory data) = abi.decode(msg.data[4:], (address, bytes));
         _upgradeToAndCall(newImplementation, data);
-    }
-
-    /**
-     * @dev Decodifica calldata de `changeAdmin` y escribe el slot admin.
-     */
-    function _dispatchChangeAdmin() private {
-        address newAdmin = abi.decode(msg.data[4:], (address));
-        _setAdmin(newAdmin);
-    }
-
-    /**
-     * @dev Lee el slot admin EIP-1967.
-     */
-    function _admin() internal view returns (address adm) {
-        bytes32 slot = ADMIN_SLOT;
-        assembly {
-            adm := sload(slot)
-        }
-    }
-
-    /**
-     * @dev Escribe el slot admin EIP-1967.
-     */
-    function _setAdmin(address newAdmin) internal {
-        if (newAdmin == address(0)) {
-            revert UnauthorizedUpgrade();
-        }
-        address previous = _admin();
-        bytes32 slot = ADMIN_SLOT;
-        assembly {
-            sstore(slot, newAdmin)
-        }
-        emit AdminChanged(previous, newAdmin);
     }
 }

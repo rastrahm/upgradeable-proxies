@@ -3,8 +3,9 @@ pragma solidity 0.8.24;
 
 /**
  * @title ITransparentProxy
- * @notice API administrativa del Transparent Proxy (la llama el `ProxyAdmin`, no el ABI del proxy).
- * @dev El proxy no declara estas funciones en su ABI: las despacha en el fallback si `msg.sender` es admin.
+ * @notice API administrativa del Transparent Proxy (la llama el `ProxyAdmin`).
+ * @dev El proxy no declara esta función en su ABI: la despacha en el fallback si `msg.sender` es admin.
+ *      El admin es immutable: para rotar control, transferir ownership del `ProxyAdmin`.
  */
 interface ITransparentProxy {
     /**
@@ -13,10 +14,4 @@ interface ITransparentProxy {
      * @param data Calldata de migración/init.
      */
     function upgradeToAndCall(address newImplementation, bytes calldata data) external payable;
-
-    /**
-     * @notice Cambia el admin EIP-1967 del proxy.
-     * @param newAdmin Nuevo admin (típicamente otro `ProxyAdmin`).
-     */
-    function changeAdmin(address newAdmin) external;
 }

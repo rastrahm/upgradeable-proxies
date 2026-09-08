@@ -1,0 +1,6 @@
+ProxyGasTest:testGas_Transparent_setValue() (gas: 32639)
+ProxyGasTest:testGas_Transparent_upgradeAndCall() (gas: 198629)
+ProxyGasTest:testGas_Transparent_value() (gas: 12604)
+ProxyGasTest:testGas_UUPS_retrieve() (gas: 12189)
+ProxyGasTest:testGas_UUPS_store() (gas: 32780)
+ProxyGasTest:testGas_UUPS_upgradeToV2() (gas: 810474)

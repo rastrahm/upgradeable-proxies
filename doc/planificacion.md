@@ -1,6 +1,6 @@
 # Planificación — Módulo 11: Upgradeable Proxies (UUPS & Transparent)
 
-**Estado:** Fases **0–4** ✅ completadas. Fases **5–6** pendientes de autorización.  
+**Estado:** Fases **0–6** ✅ completadas. Módulo cerrado a nivel de planificación v1.  
 **Regla de avance:** cada fase requiere **autorización explícita** del responsable antes de empezar.
 
 ---
@@ -128,8 +128,8 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 | 2 | Transparent Proxy + `ProxyAdmin` | ✅ Completada | ✅ Autorizada |
 | 3 | UUPS + `Initializable` | ✅ Completada | ✅ Autorizada |
 | 4 | Implementaciones BoxV1 / BoxV2 + gaps | ✅ Completada | ✅ Autorizada |
-| 5 | Suite de tests (persistencia, unauthorized, fuzz, storage-layout) | ⏳ Pendiente | ❌ Esperando |
-| 6 | Scripts de deploy + hardening NatSpec / SWC (opcional) | ⏳ Pendiente | ❌ Esperando |
+| 5 | Suite de tests (persistencia, unauthorized, fuzz, storage-layout) | ✅ Completada | ✅ Autorizada |
+| 6 | Scripts de deploy + hardening NatSpec / SWC + gas | ✅ Completada | ✅ Autorizada |
 
 ---
 
@@ -210,7 +210,7 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 
 ---
 
-### Fase 5 — Suite de tests completa
+### Fase 5 — Suite de tests completa ✅
 
 **Objetivo:** requisitos de testing del `.cursorrules` del módulo.
 
@@ -223,15 +223,19 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 
 **Criterio de salida:** `forge test` verde; fuzz sin fallos inesperados.
 
+**Hecho:** `test/UpgradeE2E.t.sol`, `test/attack/UnauthorizedUpgrade.t.sol`, `test/fuzz/StorageUpgrade.fuzz.t.sol` (1000 runs), `doc/SWC-AUDIT.md` (estilo módulo 10). **54 PASS**.
+
 ---
 
-### Fase 6 — Deploy + hardening (opcional)
+### Fase 6 — Deploy + hardening + gas ✅
 
-1. `script/Deploy.s.sol` (Transparent y/o UUPS).
+1. `script/Deploy.s.sol` (Transparent y UUPS).
 2. NatSpec completo; checklist SWC relevante a proxies.
-3. (Opcional) `doc/SWC-AUDIT.md` / `doc/GAS.md` al estilo de módulos previos.
+3. `doc/SWC-AUDIT.md` / `doc/GAS.md` al estilo de módulos previos.
 
-**Criterio de salida:** deploy local reproducible + docs de seguridad.
+**Criterio de salida:** deploy local reproducible + docs de seguridad + gas documentado.
+
+**Hecho:** Deploy UUPS+Transparent; gas opts (admin `immutable`, sin extcodesize en hot path, calldata upgrades, slots precomputados); `test/gas/Proxy.gas.t.sol`; `doc/GAS.md`. **60 PASS**.
 
 ---
 
@@ -251,13 +255,14 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 
 ## 9. Seguridad (checklist vivo)
 
-- [ ] Slots EIP-1967 correctos (no storage ordinario de la impl).
-- [ ] `_disableInitializers()` en constructores de implementaciones.
-- [ ] Gaps `__gap` en bases upgradeables.
-- [ ] Upgrades con access control estricto.
-- [ ] `delegatecall` solo en proxy; sin lógica de negocio en el proxy (salvo admin path Transparent).
-- [ ] Custom errors del módulo.
-- [ ] Sin floating pragma; NatSpec en APIs públicas.
+- [x] Slots EIP-1967 correctos (no storage ordinario de la impl).
+- [x] `_disableInitializers()` en constructores de implementaciones.
+- [x] Gaps `__gap` en bases upgradeables.
+- [x] Upgrades con access control estricto.
+- [x] `delegatecall` solo en proxy; sin lógica de negocio en el proxy (salvo admin path Transparent).
+- [x] Custom errors del módulo.
+- [x] Sin floating pragma; NatSpec en APIs públicas.
+- [x] Suite attack + fuzz + `doc/SWC-AUDIT.md`.
 
 ---
 
@@ -270,6 +275,8 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 | `diagrama-de-flujo.md` | Flujos de decisión (init, upgrade, routing) |
 | `flujograma.md` | Flujos actor–sistema extremo a extremo |
 | `storage-layout.md` | Layout BoxV1/BoxV2 (`forge inspect`) |
+| `SWC-AUDIT.md` | Matriz SWC-100–136 + riesgos informativos |
+| `GAS.md` | Optimizaciones y benchmarks Fase 6 |
 
 ---
 
@@ -287,8 +294,6 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 
 ## 12. Próximo paso
 
-**Fase 5** (suite de tests completa: e2e, unauthorized, fuzz, storage-layout) lista para arrancar cuando la autorices.
-
-> Respuesta esperada para continuar: *“Autorizo Fase 5”* (o la fase que indiques).
+**Módulo v1 completo (Fases 0–6).** Posibles extensiones: Timelock en upgrades, invariantes Foundry, frontend.
 
 **Nota:** usa `~/.foundry/bin/forge` (o antepón `$HOME/.foundry/bin` al `PATH`); el `forge` de nvm/npm no es Foundry.
