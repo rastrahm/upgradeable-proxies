@@ -1,6 +1,6 @@
 # Planificación — Módulo 11: Upgradeable Proxies (UUPS & Transparent)
 
-**Estado:** Solo documentación de planificación. **Ninguna fase de código iniciada.**  
+**Estado:** Fase **0** ✅ completada. Fases **1–6** pendientes de autorización.  
 **Regla de avance:** cada fase requiere **autorización explícita** del responsable antes de empezar.
 
 ---
@@ -123,7 +123,7 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 
 | Fase | Nombre | Estado | Autorización |
 |------|--------|--------|--------------|
-| 0 | Setup Foundry + estructura | ⏳ Pendiente | ❌ Esperando |
+| 0 | Setup Foundry + estructura | ✅ Completada | ✅ Autorizada |
 | 1 | Core ERC-1967 + `delegatecall` | ⏳ Pendiente | ❌ Esperando |
 | 2 | Transparent Proxy + `ProxyAdmin` | ⏳ Pendiente | ❌ Esperando |
 | 3 | UUPS + `Initializable` | ⏳ Pendiente | ❌ Esperando |
@@ -135,7 +135,7 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 
 ## 7. Detalle por fase
 
-### Fase 0 — Setup Foundry
+### Fase 0 — Setup Foundry ✅
 
 **Objetivo:** repo compilable vacío con tooling listo.
 
@@ -145,6 +145,8 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 4. Carpetas `src/`, `test/`, `script/`, `doc/` (ya creada).
 
 **Criterio de salida:** `forge build` OK sin contratos de negocio aún (o con stub).
+
+**Hecho (2026-09-08):** `foundry.toml` + `remappings.txt`; `forge-std` + OZ `v5.2.0` en `lib/` (gitignored); stub `Placeholder` + smoke test; carpetas `src/{proxy,uups,utils,implementations,interfaces}` y `test/fuzz` preparadas. `forge build` y `forge test` en verde.
 
 ---
 
@@ -276,6 +278,8 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 
 ## 12. Próximo paso
 
-**Fase 0** está lista para arrancar cuando la autorices.
+**Fase 1** (Core ERC-1967 + `delegatecall`) lista para arrancar cuando la autorices.
 
-> Respuesta esperada para continuar: *“Autorizo Fase 0”* (o la fase que indiques).
+> Respuesta esperada para continuar: *“Autorizo Fase 1”* (o la fase que indiques).
+
+**Nota:** usa `~/.foundry/bin/forge` (o antepón `$HOME/.foundry/bin` al `PATH`); el `forge` de nvm/npm no es Foundry.
