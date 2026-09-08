@@ -1,6 +1,6 @@
 # Planificación — Módulo 11: Upgradeable Proxies (UUPS & Transparent)
 
-**Estado:** Fases **0–2** ✅ completadas. Fases **3–6** pendientes de autorización.  
+**Estado:** Fases **0–3** ✅ completadas. Fases **4–6** pendientes de autorización.  
 **Regla de avance:** cada fase requiere **autorización explícita** del responsable antes de empezar.
 
 ---
@@ -126,7 +126,7 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 | 0 | Setup Foundry + estructura | ✅ Completada | ✅ Autorizada |
 | 1 | Core ERC-1967 + `delegatecall` | ✅ Completada | ✅ Autorizada |
 | 2 | Transparent Proxy + `ProxyAdmin` | ✅ Completada | ✅ Autorizada |
-| 3 | UUPS + `Initializable` | ⏳ Pendiente | ❌ Esperando |
+| 3 | UUPS + `Initializable` | ✅ Completada | ✅ Autorizada |
 | 4 | Implementaciones BoxV1 / BoxV2 + gaps | ⏳ Pendiente | ❌ Esperando |
 | 5 | Suite de tests (persistencia, unauthorized, fuzz, storage-layout) | ⏳ Pendiente | ❌ Esperando |
 | 6 | Scripts de deploy + hardening NatSpec / SWC (opcional) | ⏳ Pendiente | ❌ Esperando |
@@ -180,7 +180,7 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 
 ---
 
-### Fase 3 — UUPS + Initializable
+### Fase 3 — UUPS + Initializable ✅
 
 **Objetivo:** upgrade autorizado desde la implementación.
 
@@ -190,6 +190,8 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 4. Reverts: `AlreadyInitialized`, `UnauthorizedUpgrade`, `InvalidImplementation`.
 
 **Criterio de salida:** UUPS upgrade feliz + caminos de error en verde.
+
+**Hecho:** `Initializable`, `UUPSUpgradeable`, mocks `UUPSCounter` / `UUPSCounterV2` / `NonUUPSLogic`, suite `test/UUPS.t.sol`.
 
 ---
 
@@ -282,8 +284,8 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 
 ## 12. Próximo paso
 
-**Fase 3** (UUPS + `Initializable`) lista para arrancar cuando la autorices.
+**Fase 4** (BoxV1 / BoxV2 + storage gaps) lista para arrancar cuando la autorices.
 
-> Respuesta esperada para continuar: *“Autorizo Fase 3”* (o la fase que indiques).
+> Respuesta esperada para continuar: *“Autorizo Fase 4”* (o la fase que indiques).
 
 **Nota:** usa `~/.foundry/bin/forge` (o antepón `$HOME/.foundry/bin` al `PATH`); el `forge` de nvm/npm no es Foundry.
