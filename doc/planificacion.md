@@ -1,6 +1,6 @@
 # Planificación — Módulo 11: Upgradeable Proxies (UUPS & Transparent)
 
-**Estado:** Fases **0–3** ✅ completadas. Fases **4–6** pendientes de autorización.  
+**Estado:** Fases **0–4** ✅ completadas. Fases **5–6** pendientes de autorización.  
 **Regla de avance:** cada fase requiere **autorización explícita** del responsable antes de empezar.
 
 ---
@@ -127,7 +127,7 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 | 1 | Core ERC-1967 + `delegatecall` | ✅ Completada | ✅ Autorizada |
 | 2 | Transparent Proxy + `ProxyAdmin` | ✅ Completada | ✅ Autorizada |
 | 3 | UUPS + `Initializable` | ✅ Completada | ✅ Autorizada |
-| 4 | Implementaciones BoxV1 / BoxV2 + gaps | ⏳ Pendiente | ❌ Esperando |
+| 4 | Implementaciones BoxV1 / BoxV2 + gaps | ✅ Completada | ✅ Autorizada |
 | 5 | Suite de tests (persistencia, unauthorized, fuzz, storage-layout) | ⏳ Pendiente | ❌ Esperando |
 | 6 | Scripts de deploy + hardening NatSpec / SWC (opcional) | ⏳ Pendiente | ❌ Esperando |
 
@@ -195,7 +195,7 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 
 ---
 
-### Fase 4 — BoxV1 / BoxV2 + storage gaps
+### Fase 4 — BoxV1 / BoxV2 + storage gaps ✅
 
 **Objetivo:** demo de negocio upgradeable con layout seguro.
 
@@ -205,6 +205,8 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 4. `forge inspect BoxV1 storage-layout` y `BoxV2 storage-layout` documentados.
 
 **Criterio de salida:** persistencia de estado verificada; layouts compatibles.
+
+**Hecho:** `IBox`, `BoxV1`, `BoxV2`, `test/BoxUpgrade.t.sol`, `doc/storage-layout.md` (slots 0/1 estables; `label` en slot 2; gap 50→49).
 
 ---
 
@@ -267,6 +269,7 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 | `diagrama-de-clases.md` | Estructura y relaciones entre contratos |
 | `diagrama-de-flujo.md` | Flujos de decisión (init, upgrade, routing) |
 | `flujograma.md` | Flujos actor–sistema extremo a extremo |
+| `storage-layout.md` | Layout BoxV1/BoxV2 (`forge inspect`) |
 
 ---
 
@@ -284,8 +287,8 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 
 ## 12. Próximo paso
 
-**Fase 4** (BoxV1 / BoxV2 + storage gaps) lista para arrancar cuando la autorices.
+**Fase 5** (suite de tests completa: e2e, unauthorized, fuzz, storage-layout) lista para arrancar cuando la autorices.
 
-> Respuesta esperada para continuar: *“Autorizo Fase 4”* (o la fase que indiques).
+> Respuesta esperada para continuar: *“Autorizo Fase 5”* (o la fase que indiques).
 
 **Nota:** usa `~/.foundry/bin/forge` (o antepón `$HOME/.foundry/bin` al `PATH`); el `forge` de nvm/npm no es Foundry.
