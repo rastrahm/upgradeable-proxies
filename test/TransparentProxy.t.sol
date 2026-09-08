@@ -121,18 +121,20 @@ contract TransparentProxyTest is Test {
         assertEq(proxy.implementation(), address(v2));
     }
 
-    function test_ChangeProxyAdmin() public {
-        vm.prank(owner);
-        ProxyAdmin newAdmin = new ProxyAdmin(owner);
-
-        vm.prank(owner);
-        proxyAdmin.changeProxyAdmin(ITransparentProxy(address(proxy)), address(newAdmin));
-
-        assertEq(proxy.admin(), address(newAdmin));
-
+    function test_TransferProxyAdminOwnership_NewOwnerCanUpgrade() public {
+        address newOwner = makeAddr("newOwner");
         CounterLogicV2 v2 = new CounterLogicV2();
+
         vm.prank(owner);
-        newAdmin.upgradeAndCall(ITransparentProxy(address(proxy)), address(v2), "");
+        proxyAdmin.transferOwnership(newOwner);
+        vm.prank(newOwner);
+        proxyAdmin.acceptOwnership();
+
+        assertEq(proxyAdmin.owner(), newOwner);
+        assertEq(proxy.admin(), address(proxyAdmin), "admin del proxy sigue siendo ProxyAdmin");
+
+        vm.prank(newOwner);
+        proxyAdmin.upgradeAndCall(ITransparentProxy(address(proxy)), address(v2), "");
         assertEq(proxy.implementation(), address(v2));
     }
 

@@ -83,7 +83,8 @@ contract BoxV2 is Initializable, UUPSUpgradeable, IBox {
      * @inheritdoc UUPSUpgradeable
      */
     function _authorizeUpgrade(address) internal view override {
-        if (msg.sender != owner) {
+        address owner_ = owner;
+        if (msg.sender != owner_) {
             revert UnauthorizedUpgrade();
         }
     }

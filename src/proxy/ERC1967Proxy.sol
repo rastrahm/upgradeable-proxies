@@ -6,15 +6,15 @@ import {ProxyErrors} from "../errors/ProxyErrors.sol";
 /**
  * @title ERC1967Proxy
  * @notice Proxy mínimo EIP-1967: enruta llamadas con `delegatecall` a la implementación.
- * @dev Slot: `bytes32(uint256(keccak256("eip1967.proxy.implementation")) - 1)`.
- *      Preserva `msg.sender` y `msg.value` vía `delegatecall` en fallback/receive (assembly).
+ * @dev Hot path: un `sload` del slot + `delegatecall` (sin `extcodesize` por llamada).
+ *      Validación de código solo al setear la implementación.
  */
 contract ERC1967Proxy is ProxyErrors {
     /**
-     * @dev Slot ERC-1967 de implementación.
-     *      `keccak256("eip1967.proxy.implementation") - 1`
+     * @dev Slot ERC-1967 de implementación (constante precomputada EIP-1967).
      */
-    bytes32 internal constant IMPLEMENTATION_SLOT = bytes32(uint256(keccak256("eip1967.proxy.implementation")) - 1);
+    // solhint-disable-next-line private-vars-leading-underscore
+    bytes32 internal constant IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
 
     /**
      * @notice Emitido al fijar o cambiar la implementación.
@@ -62,33 +62,36 @@ contract ERC1967Proxy is ProxyErrors {
      * @dev Lee el slot EIP-1967 de implementación.
      */
     function _implementation() internal view returns (address impl) {
-        bytes32 slot = IMPLEMENTATION_SLOT;
         assembly {
-            impl := sload(slot)
+            impl := sload(IMPLEMENTATION_SLOT)
         }
     }
 
     /**
-     * @dev Escribe el slot EIP-1967 tras validar código en `newImplementation`.
+     * @dev Escribe el slot EIP-1967 tras validar `extcodesize` (cubre `address(0)`).
      */
     function _setImplementation(address newImplementation) internal {
-        if (newImplementation == address(0) || newImplementation.code.length == 0) {
-            revert InvalidImplementation();
-        }
-        bytes32 slot = IMPLEMENTATION_SLOT;
         assembly {
-            sstore(slot, newImplementation)
+            if iszero(extcodesize(newImplementation)) {
+                mstore(0x00, shl(224, 0x68155f9a))
+                revert(0x00, 0x04)
+            }
+            sstore(IMPLEMENTATION_SLOT, newImplementation)
         }
         emit Upgraded(newImplementation);
     }
 
     /**
-     * @dev Obtiene la impl y ejecuta `delegatecall` con el calldata actual.
+     * @dev Hot path: sload + delegatecall (sin extcodesize).
      */
     function _fallback() internal virtual {
-        address impl = _implementation();
-        if (impl == address(0) || impl.code.length == 0) {
-            revert InvalidImplementation();
+        address impl;
+        assembly {
+            impl := sload(IMPLEMENTATION_SLOT)
+            if iszero(impl) {
+                mstore(0x00, shl(224, 0x68155f9a))
+                revert(0x00, 0x04)
+            }
         }
         _delegate(impl);
     }
@@ -108,7 +111,7 @@ contract ERC1967Proxy is ProxyErrors {
     }
 
     /**
-     * @dev `delegatecall` del calldata completo; no retorna al Solidity caller (return/revert en assembly).
+     * @dev `delegatecall` del calldata completo; return/revert en assembly.
      */
     function _delegate(address implementation_) internal {
         assembly {
@@ -121,7 +124,6 @@ contract ERC1967Proxy is ProxyErrors {
                 if returndatasize() {
                     revert(0, returndatasize())
                 }
-                // Selector de DelegateCallFailed() = 0x18cecad5
                 mstore(0x00, shl(224, 0x18cecad5))
                 revert(0x00, 0x04)
             }
@@ -132,17 +134,19 @@ contract ERC1967Proxy is ProxyErrors {
     }
 
     /**
-     * @dev `delegatecall` con `data` arbitrario (constructor / setup).
+     * @dev `delegatecall` con `data` en memory (constructor / upgrade); no hace `return` al caller.
      */
     function _delegateCall(address implementation_, bytes memory data) internal {
-        (bool success, bytes memory returndata) = implementation_.delegatecall(data);
-        if (!success) {
-            if (returndata.length > 0) {
-                assembly {
-                    revert(add(returndata, 0x20), mload(returndata))
+        assembly {
+            let success := delegatecall(gas(), implementation_, add(data, 0x20), mload(data), 0, 0)
+            if iszero(success) {
+                returndatacopy(0, 0, returndatasize())
+                if returndatasize() {
+                    revert(0, returndatasize())
                 }
+                mstore(0x00, shl(224, 0x18cecad5))
+                revert(0x00, 0x04)
             }
-            revert DelegateCallFailed();
         }
     }
 }

@@ -10,7 +10,7 @@ import {ProxyErrors} from "../errors/ProxyErrors.sol";
 /**
  * @title ProxyAdmin
  * @notice Dueño del Transparent Proxy: único caller privilegiado para upgrades.
- * @dev Ownership con `Ownable2Step`. El admin del proxy debe ser esta dirección.
+ * @dev Ownership con `Ownable2Step`. Rotar control = `transferOwnership` + `acceptOwnership`.
  */
 contract ProxyAdmin is Ownable2Step, ProxyErrors {
     /**
@@ -34,20 +34,11 @@ contract ProxyAdmin is Ownable2Step, ProxyErrors {
      * @param implementation Nueva lógica.
      * @param data Calldata de migración; `""` si no hay llamada post-upgrade.
      */
-    function upgradeAndCall(
-        ITransparentProxy proxy,
-        address implementation,
-        bytes memory data
-    ) external payable onlyOwner {
+    function upgradeAndCall(ITransparentProxy proxy, address implementation, bytes calldata data)
+        external
+        payable
+        onlyOwner
+    {
         proxy.upgradeToAndCall{value: msg.value}(implementation, data);
-    }
-
-    /**
-     * @notice Cambia el admin EIP-1967 del proxy (p. ej. a otro `ProxyAdmin`).
-     * @param proxy Proxy a modificar.
-     * @param newAdmin Nuevo admin.
-     */
-    function changeProxyAdmin(ITransparentProxy proxy, address newAdmin) external onlyOwner {
-        proxy.changeAdmin(newAdmin);
     }
 }
