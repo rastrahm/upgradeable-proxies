@@ -85,12 +85,26 @@ contract ERC1967Proxy is ProxyErrors {
     /**
      * @dev Obtiene la impl y ejecuta `delegatecall` con el calldata actual.
      */
-    function _fallback() internal {
+    function _fallback() internal virtual {
         address impl = _implementation();
         if (impl == address(0) || impl.code.length == 0) {
             revert InvalidImplementation();
         }
         _delegate(impl);
+    }
+
+    /**
+     * @dev Cambia la implementación y opcionalmente ejecuta `data` vía `delegatecall`.
+     * @param newImplementation Nueva lógica (con código).
+     * @param data Calldata de setup/migración; vacío = sin llamada.
+     */
+    function _upgradeToAndCall(address newImplementation, bytes memory data) internal {
+        _setImplementation(newImplementation);
+        if (data.length > 0) {
+            _delegateCall(newImplementation, data);
+        } else if (msg.value > 0) {
+            revert InvalidImplementation();
+        }
     }
 
     /**
