@@ -1,5 +1,7 @@
 # Flujograma — Ciclo completo de proxies upgradeables
 
+> 🌐 [English](./flujograma-EN.md) · **Español** · [Índice](../README.md)
+
 Flujo extremo a extremo entre actores y contratos: despliegue, uso, upgrade y verificación de persistencia.
 
 ## Actores

@@ -1,5 +1,7 @@
 # Storage slots — por qué no usar el slot 0 (y cómo se reparte todo)
 
+> 🌐 [English](./STORAGE-SLOTS-EN.md) · **Español** · [Índice](../README.md)
+
 La afirmación:
 
 > **No guardar `address implementation` en el slot 0 del proxy**
@@ -135,7 +137,7 @@ Pensá tres “capas” en la **misma** cajonera del proxy:
 
 ### Capa A — Negocio (layout de Box, secuencial)
 
-Como en `forge inspect` / [`storage-layout.md`](./storage-layout.md):
+Como en `forge inspect` / [`storage-layout-ES.md`](./storage-layout-ES.md):
 
 **BoxV1**
 
@@ -284,4 +286,4 @@ En tests: `vm.load(proxy, IMPLEMENTATION_SLOT)` vs `vm.load(proxy, bytes32(uint2
 
 ---
 
-*Relacionado: [`storage-layout.md`](./storage-layout.md) (Box V1/V2) · [`ENTENDER-EL-MODULO.md`](./ENTENDER-EL-MODULO.md) · [`PATRONES-PROXY.md`](./PATRONES-PROXY.md)*
+*Relacionado: [`storage-layout-ES.md`](./storage-layout-ES.md) (Box V1/V2) · [`ENTENDER-EL-MODULO-ES.md`](./ENTENDER-EL-MODULO-ES.md) · [`PATRONES-PROXY-ES.md`](./PATRONES-PROXY-ES.md)*

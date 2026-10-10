@@ -1,5 +1,7 @@
 # Diagrama de flujo — Routing, inicialización y upgrade
 
+> 🌐 [English](./diagrama-de-flujo-EN.md) · **Español** · [Índice](../README.md)
+
 Flujos de decisión internos del sistema de proxies (módulo 11).
 
 ## 1. Routing Transparent Proxy (fallback)

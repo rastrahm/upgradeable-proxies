@@ -1,5 +1,7 @@
 # Storage layout — BoxV1 / BoxV2
 
+> 🌐 [English](./storage-layout-EN.md) · **Español** · [Índice](../README.md)
+
 Documento de Fase 4. Generado con:
 
 ```bash

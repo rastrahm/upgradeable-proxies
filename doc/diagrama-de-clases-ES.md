@@ -1,5 +1,7 @@
 # Diagrama de clases — Upgradeable Proxies (UUPS & Transparent)
 
+> 🌐 [English](./diagrama-de-clases-EN.md) · **Español** · [Índice](../README.md)
+
 Vista estructural de contratos, interfaces y relaciones (módulo 11).
 
 ## Diagrama (Mermaid)

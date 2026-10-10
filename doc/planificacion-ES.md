@@ -1,5 +1,7 @@
 # Planificación — Módulo 11: Upgradeable Proxies (UUPS & Transparent)
 
+> 🌐 [English](./planificacion-EN.md) · **Español** · [Índice](../README.md)
+
 **Estado:** Fases **0–6** ✅ completadas. Módulo cerrado a nivel de planificación v1.  
 **Regla de avance:** cada fase requiere **autorización explícita** del responsable antes de empezar.
 
@@ -206,7 +208,7 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 
 **Criterio de salida:** persistencia de estado verificada; layouts compatibles.
 
-**Hecho:** `IBox`, `BoxV1`, `BoxV2`, `test/BoxUpgrade.t.sol`, `doc/storage-layout.md` (slots 0/1 estables; `label` en slot 2; gap 50→49).
+**Hecho:** `IBox`, `BoxV1`, `BoxV2`, `test/BoxUpgrade.t.sol`, `doc/storage-layout-ES.md` (slots 0/1 estables; `label` en slot 2; gap 50→49).
 
 ---
 
@@ -223,7 +225,7 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 
 **Criterio de salida:** `forge test` verde; fuzz sin fallos inesperados.
 
-**Hecho:** `test/UpgradeE2E.t.sol`, `test/attack/UnauthorizedUpgrade.t.sol`, `test/fuzz/StorageUpgrade.fuzz.t.sol` (1000 runs), `doc/SWC-AUDIT.md` (estilo módulo 10). **54 PASS**.
+**Hecho:** `test/UpgradeE2E.t.sol`, `test/attack/UnauthorizedUpgrade.t.sol`, `test/fuzz/StorageUpgrade.fuzz.t.sol` (1000 runs), `doc/SWC-AUDIT-ES.md` (estilo módulo 10). **54 PASS**.
 
 ---
 
@@ -231,11 +233,11 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 
 1. `script/Deploy.s.sol` (Transparent y UUPS).
 2. NatSpec completo; checklist SWC relevante a proxies.
-3. `doc/SWC-AUDIT.md` / `doc/GAS.md` al estilo de módulos previos.
+3. `doc/SWC-AUDIT-ES.md` / `doc/GAS-ES.md` al estilo de módulos previos.
 
 **Criterio de salida:** deploy local reproducible + docs de seguridad + gas documentado.
 
-**Hecho:** Deploy UUPS+Transparent; gas opts (admin `immutable`, sin extcodesize en hot path, calldata upgrades, slots precomputados); `test/gas/Proxy.gas.t.sol`; `doc/GAS.md`. **60 PASS**.
+**Hecho:** Deploy UUPS+Transparent; gas opts (admin `immutable`, sin extcodesize en hot path, calldata upgrades, slots precomputados); `test/gas/Proxy.gas.t.sol`; `doc/GAS-ES.md`. **60 PASS**.
 
 ---
 
@@ -262,7 +264,7 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 - [x] `delegatecall` solo en proxy; sin lógica de negocio en el proxy (salvo admin path Transparent).
 - [x] Custom errors del módulo.
 - [x] Sin floating pragma; NatSpec en APIs públicas.
-- [x] Suite attack + fuzz + `doc/SWC-AUDIT.md`.
+- [x] Suite attack + fuzz + `doc/SWC-AUDIT-ES.md`.
 
 ---
 
@@ -270,13 +272,13 @@ Ampliar solo si hace falta (p. ej. `ZeroAddress()`, `InvalidAdmin()`), siempre c
 
 | Archivo | Contenido |
 |---------|-----------|
-| `planificacion.md` | Este documento (fases + gates) |
-| `diagrama-de-clases.md` | Estructura y relaciones entre contratos |
-| `diagrama-de-flujo.md` | Flujos de decisión (init, upgrade, routing) |
-| `flujograma.md` | Flujos actor–sistema extremo a extremo |
-| `storage-layout.md` | Layout BoxV1/BoxV2 (`forge inspect`) |
-| `SWC-AUDIT.md` | Matriz SWC-100–136 + riesgos informativos |
-| `GAS.md` | Optimizaciones y benchmarks Fase 6 |
+| `planificacion-ES.md` | Este documento (fases + gates) |
+| `diagrama-de-clases-ES.md` | Estructura y relaciones entre contratos |
+| `diagrama-de-flujo-ES.md` | Flujos de decisión (init, upgrade, routing) |
+| `flujograma-ES.md` | Flujos actor–sistema extremo a extremo |
+| `storage-layout-ES.md` | Layout BoxV1/BoxV2 (`forge inspect`) |
+| `SWC-AUDIT-ES.md` | Matriz SWC-100–136 + riesgos informativos |
+| `GAS-ES.md` | Optimizaciones y benchmarks Fase 6 |
 
 ---
 

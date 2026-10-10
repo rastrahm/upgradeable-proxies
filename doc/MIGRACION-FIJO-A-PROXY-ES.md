@@ -1,5 +1,7 @@
 # Bosquejo — Migrar contrato fijo → proxy upgradeable
 
+> 🌐 [English](./MIGRACION-FIJO-A-PROXY-EN.md) · **Español** · [Índice](../README.md)
+
 En la vida real pasa **más** de lo ideal: muchos protocolos arrancan inmutables y después necesitan bugs fixes, fees o compliance. La forma limpia habría sido proxy desde el día 1; la forma real suele ser **migración**.
 
 ---
