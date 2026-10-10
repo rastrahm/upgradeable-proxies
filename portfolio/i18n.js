@@ -54,7 +54,7 @@ const I18N = {
     'gas.eyebrow': '// 03 — OPTIMIZACIÓN DE GAS',
     'gas.title': 'Hot path barato, seguridad intacta',
     'gas.lead':
-      'Fase 6: cada optimización está en <code>doc/GAS.md</code> con su <strong>tradeoff</strong>. Priorizamos el <strong>fallback</strong> (cada call de usuario) sobre el coste de deploy: admin immutable, sin <code>extcodesize</code> por llamada y slots EIP-1967 precomputados.',
+      'Fase 6: cada optimización está en <code>doc/GAS-ES.md</code> con su <strong>tradeoff</strong>. Priorizamos el <strong>fallback</strong> (cada call de usuario) sobre el coste de deploy: admin immutable, sin <code>extcodesize</code> por llamada y slots EIP-1967 precomputados.',
     'gas.th1': 'Optimización',
     'gas.th2': 'Tradeoff / efecto',
     'gas.r1a': 'Admin immutable (TransparentProxy)',
@@ -75,7 +75,7 @@ const I18N = {
     'swc.eyebrow': '// 04 — VERIFICACIÓN SWC',
     'swc.title': 'SWC Registry · EIP-1470',
     'swc.lead':
-      'Matriz completa <strong>SWC-100 → SWC-136</strong> contra proxies EIP-1967, UUPS, Transparent y Box. Informe en <code>doc/SWC-AUDIT.md</code>. Conclusión: <strong>0 vulnerabilidades explotables</strong>; el <code>delegatecall</code> (SWC-112) es intencional y está acotado.',
+      'Matriz completa <strong>SWC-100 → SWC-136</strong> contra proxies EIP-1967, UUPS, Transparent y Box. Informe en <code>doc/SWC-AUDIT-ES.md</code>. Conclusión: <strong>0 vulnerabilidades explotables</strong>; el <code>delegatecall</code> (SWC-112) es intencional y está acotado.',
     'swc.s1': 'Mitigados / N/A',
     'swc.s2': 'Informativos (diseño)',
     'swc.s3': 'Vulnerables',
@@ -111,7 +111,7 @@ const I18N = {
     'term.label': 'rolando@strahm:~/11-upgradeable-proxies',
     'term.1': 'forge test --summary',
     'term.2': '[PASS] suite · 60 passed',
-    'term.3': 'cat doc/SWC-AUDIT.md | head',
+    'term.3': 'cat doc/SWC-AUDIT-ES.md | head',
     'term.4': 'Vulnerable: 0 · Informativos: 5 · Mitigados/N/A: 31',
     'term.5': 'echo status',
     'term.6': 'MODULE_11_CLOSED · GAS_OPTS_APPLIED',
@@ -197,7 +197,7 @@ const I18N = {
     'gas.eyebrow': '// 03 — GAS OPTIMIZATION',
     'gas.title': 'Cheap hot path, security intact',
     'gas.lead':
-      'Phase 6: every optimization is in <code>doc/GAS.md</code> with its <strong>tradeoff</strong>. We prioritize the <strong>fallback</strong> (every user call) over deploy cost: immutable admin, no per-call <code>extcodesize</code>, and precomputed EIP-1967 slots.',
+      'Phase 6: every optimization is in <code>doc/GAS-EN.md</code> with its <strong>tradeoff</strong>. We prioritize the <strong>fallback</strong> (every user call) over deploy cost: immutable admin, no per-call <code>extcodesize</code>, and precomputed EIP-1967 slots.',
     'gas.th1': 'Optimization',
     'gas.th2': 'Tradeoff / effect',
     'gas.r1a': 'Immutable admin (TransparentProxy)',
@@ -218,7 +218,7 @@ const I18N = {
     'swc.eyebrow': '// 04 — SWC VERIFICATION',
     'swc.title': 'SWC Registry · EIP-1470',
     'swc.lead':
-      'Full <strong>SWC-100 → SWC-136</strong> matrix against EIP-1967 proxies, UUPS, Transparent, and Box. Report in <code>doc/SWC-AUDIT.md</code>. Conclusion: <strong>0 exploitable vulnerabilities</strong>; <code>delegatecall</code> (SWC-112) is intentional and constrained.',
+      'Full <strong>SWC-100 → SWC-136</strong> matrix against EIP-1967 proxies, UUPS, Transparent, and Box. Report in <code>doc/SWC-AUDIT-EN.md</code>. Conclusion: <strong>0 exploitable vulnerabilities</strong>; <code>delegatecall</code> (SWC-112) is intentional and constrained.',
     'swc.s1': 'Mitigated / N/A',
     'swc.s2': 'Informational (design)',
     'swc.s3': 'Vulnerable',
@@ -254,7 +254,7 @@ const I18N = {
     'term.label': 'rolando@strahm:~/11-upgradeable-proxies',
     'term.1': 'forge test --summary',
     'term.2': '[PASS] suite · 60 passed',
-    'term.3': 'cat doc/SWC-AUDIT.md | head',
+    'term.3': 'cat doc/SWC-AUDIT-EN.md | head',
     'term.4': 'Vulnerable: 0 · Informational: 5 · Mitigated/N/A: 31',
     'term.5': 'echo status',
     'term.6': 'MODULE_11_CLOSED · GAS_OPTS_APPLIED',

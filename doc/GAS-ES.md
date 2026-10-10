@@ -1,5 +1,7 @@
 # Optimización de gas — Upgradeable Proxies (UUPS & Transparent)
 
+> 🌐 [English](./GAS-EN.md) · **Español** · [Índice](../README.md)
+
 Regenerar:
 
 ```bash
@@ -88,4 +90,4 @@ Las optimizaciones **no** debilitan auth ni layout:
 - Transparent: admin sigue siendo solo `ProxyAdmin`; usuario no escribe el slot impl.
 - UUPS: `onlyProxy` + `proxiableUUID` + `_authorizeUpgrade` intactos.
 - Initializers / `__gap` sin cambios de offsets.
-- Ver [`SWC-AUDIT.md`](./SWC-AUDIT.md) y [`storage-layout.md`](./storage-layout.md).
+- Ver [`SWC-AUDIT-ES.md`](./SWC-AUDIT-ES.md) y [`storage-layout-ES.md`](./storage-layout-ES.md).

@@ -1,8 +1,10 @@
 # Patrones de proxy — Beacon, Clones, Diamond + tabla comparativa
 
+> 🌐 [English](./PATRONES-PROXY-EN.md) · **Español** · [Índice](../README.md)
+
 > *Beacon* = **faro**. *Minimal proxy* = **vaso** barato. *Diamond* = **edificio con muchas oficinas** (facetas).
 
-Relacionado: [`ENTENDER-EL-MODULO.md`](./ENTENDER-EL-MODULO.md) · módulo 11 (UUPS + Transparent).
+Relacionado: [`ENTENDER-EL-MODULO-ES.md`](./ENTENDER-EL-MODULO-ES.md) · módulo 11 (UUPS + Transparent).
 
 ---
 
@@ -564,7 +566,7 @@ El módulo 11 implementa **UUPS + Transparent** (un proxy, una lógica, upgrade 
 
 > “factory de 500 boxes/vaults; quiero upgradear la lógica de todos de una vez”.
 
-No está en el alcance v1 (ver `planificacion.md`: Beacon/Diamond excluidos a propósito).
+No está en el alcance v1 (ver `planificacion-ES.md`: Beacon/Diamond excluidos a propósito).
 
 ---
 

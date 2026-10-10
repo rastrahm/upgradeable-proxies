@@ -1,5 +1,7 @@
 # Auditoría SWC — Upgradeable Proxies (UUPS & Transparent)
 
+> 🌐 [English](./SWC-AUDIT-EN.md) · **Español** · [Índice](../README.md)
+
 Verificación de proxies EIP-1967, Transparent/`ProxyAdmin`, UUPS/`Initializable` y Box V1/V2 contra el [SWC Registry](https://swcregistry.io/) (EIP-1470) y principios del monorepo (custom errors, pragma fijo, access control, gaps de storage).
 
 > **Nota:** El SWC Registry no se mantiene activamente desde ~2020. Complementar con [SCSVS](https://github.com/ComposableSecurity/SCSVS) y [EEA EthTrust](https://entethalliance.org/specs/ethtrust/).
@@ -12,7 +14,7 @@ Verificación de proxies EIP-1967, Transparent/`ProxyAdmin`, UUPS/`Initializable
 **Mocks (fuera de prod):** `src/mocks/*`  
 **Fecha:** 2026-09-08  
 **Referencia tests:** `test/ERC1967Proxy.t.sol`, `test/TransparentProxy.t.sol`, `test/UUPS.t.sol`, `test/BoxUpgrade.t.sol`, `test/UpgradeE2E.t.sol`, `test/fuzz/`, `test/attack/`  
-**Estilo:** alineado a [`10-dao-governance/doc/SWC-AUDIT.md`](../../10-dao-governance/doc/SWC-AUDIT.md)
+**Estilo:** alineado a [`10-dao-governance/doc/SWC-AUDIT-ES.md`](../../10-dao-governance/doc/SWC-AUDIT-ES.md)
 
 ---
 
@@ -35,7 +37,7 @@ Verificación de proxies EIP-1967, Transparent/`ProxyAdmin`, UUPS/`Initializable
 | EIP-1967 implementation / admin slots | ✅ + unit |
 | Initializers deshabilitados en impl | ✅ + attack |
 | Access control de upgrades | ✅ Transparent `Ownable2Step` + UUPS owner |
-| Storage gaps / layout V1→V2 | ✅ `forge inspect` + `doc/storage-layout.md` |
+| Storage gaps / layout V1→V2 | ✅ `forge inspect` + `doc/storage-layout-ES.md` |
 | Fuzz ≥ 1000 runs | ✅ `foundry.toml` + `test/fuzz/` |
 | Attack suite unauthorized | ✅ `test/attack/` |
 
@@ -118,7 +120,7 @@ Migraciones enormes en `upgradeToAndCall` pueden fallar por gas. Mitigación: mi
 
 ### Layout storage
 
-Romper offsets al upgradear corrompe estado. Mitigado con `__gap`, `forge inspect` (`doc/storage-layout.md`) y fuzz de persistencia.
+Romper offsets al upgradear corrompe estado. Mitigado con `__gap`, `forge inspect` (`doc/storage-layout-ES.md`) y fuzz de persistencia.
 
 ---
 
@@ -157,9 +159,9 @@ Romper offsets al upgradear corrompe estado. Mitigado con `__gap`, `forge inspec
 | 1 | `test/UpgradeE2E.t.sol` | Ciclo completo UUPS + Transparent |
 | 2 | `test/fuzz/StorageUpgrade.fuzz.t.sol` | Cero corrupción pre/post upgrade |
 | 3 | `test/attack/UnauthorizedUpgrade.t.sol` | SWC-123 / auth bypass |
-| 4 | `doc/SWC-AUDIT.md` | Matriz SWC-100–136 (estilo módulo 10) |
+| 4 | `doc/SWC-AUDIT-ES.md` | Matriz SWC-100–136 (estilo módulo 10) |
 | 5 | Admin `immutable` + gas opts | Hot path sin SLOAD de admin / sin extcodesize |
-| 6 | `script/Deploy.s.sol` + `doc/GAS.md` | Deploy reproducible + benchmarks |
+| 6 | `script/Deploy.s.sol` + `doc/GAS-ES.md` | Deploy reproducible + benchmarks |
 
 ### Observaciones no bloqueantes (v2 / Fase 6)
 
@@ -183,7 +185,7 @@ Romper offsets al upgradear corrompe estado. Mitigado con `__gap`, `forge inspec
 | SWC-113 | `fail` / `failEmpty` en `ERC1967Proxy.t.sol` |
 | SWC-114 | Documental |
 | SWC-123 | unit + e2e + fuzz + attack |
-| SWC-124 | `storage-layout.md` + slot asserts e2e/fuzz |
+| SWC-124 | `storage-layout-ES.md` + slot asserts e2e/fuzz |
 | Auth | `test/attack/UnauthorizedUpgrade.t.sol` |
 | Layout | `BoxUpgrade.t.sol` + `UpgradeE2E` + fuzz |
 
@@ -212,6 +214,6 @@ Total: 60 PASS / 0 FAIL / 0 SKIP
 - [EIP-1470](https://eips.ethereum.org/EIPS/eip-1470)
 - [EIP-1967](https://eips.ethereum.org/EIPS/eip-1967)
 - [ERC-1822 (UUPS)](https://eips.ethereum.org/EIPS/eip-1822)
-- Módulo 10: [`10-dao-governance/doc/SWC-AUDIT.md`](../../10-dao-governance/doc/SWC-AUDIT.md)
-- Layout: [`storage-layout.md`](./storage-layout.md)
-- Plan: [`planificacion.md`](./planificacion.md)
+- Módulo 10: [`10-dao-governance/doc/SWC-AUDIT-ES.md`](../../10-dao-governance/doc/SWC-AUDIT-ES.md)
+- Layout: [`storage-layout-ES.md`](./storage-layout-ES.md)
+- Plan: [`planificacion-ES.md`](./planificacion-ES.md)

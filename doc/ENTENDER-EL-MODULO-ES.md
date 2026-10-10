@@ -1,8 +1,10 @@
 # Entender el módulo — Decisiones, lógica y gas
 
+> 🌐 [English](./ENTENDER-EL-MODULO-EN.md) · **Español** · [Índice](../README.md)
+
 Documento para leer el proyecto **Upgradeable Proxies (módulo 11)** sin tener que reconstruir el diseño desde el código.
 
-Relacionado: [`planificacion.md`](./planificacion.md) · [`GAS.md`](./GAS.md) · [`SWC-AUDIT.md`](./SWC-AUDIT.md) · [`flujograma.md`](./flujograma.md)
+Relacionado: [`planificacion-ES.md`](./planificacion-ES.md) · [`GAS-ES.md`](./GAS-ES.md) · [`SWC-AUDIT-ES.md`](./SWC-AUDIT-ES.md) · [`flujograma-ES.md`](./flujograma-ES.md)
 
 ---
 
@@ -61,7 +63,7 @@ Los constructores de la impl **no** inicializan el storage del proxy (el constru
 
 BoxV1 reserva `uint256[50] __gap`. BoxV2 añade `label` y baja el gap a 49.
 
-**Decisión:** variables nuevas **solo al final** del layout. Documentado en [`storage-layout.md`](./storage-layout.md) con `forge inspect`.
+**Decisión:** variables nuevas **solo al final** del layout. Documentado en [`storage-layout-ES.md`](./storage-layout-ES.md) con `forge inspect`.
 
 ### 2.6 Admin immutable en Transparent (Fase 6)
 
@@ -151,7 +153,7 @@ BoxV1 / BoxV2    → “qué hace el negocio” + gaps
 
 ## 4. Gas: qué ya está optimizado
 
-Resumen de Fase 6 (detalle numérico en [`GAS.md`](./GAS.md)):
+Resumen de Fase 6 (detalle numérico en [`GAS-ES.md`](./GAS-ES.md)):
 
 1. Admin **immutable** en Transparent.
 2. **Sin** `extcodesize` en el hot path del fallback.
@@ -221,7 +223,7 @@ Regla: **no mergear una “opt” sin Δ medido** en el mismo test.
 3. `src/uups/UUPSUpgradeable.sol` + `src/utils/Initializable.sol` — upgrade desde la lógica  
 4. `src/implementations/BoxV1.sol` → `BoxV2.sol` — layout + gap  
 5. `test/UpgradeE2E.t.sol` + `test/attack/` + `test/fuzz/` — comportamiento esperado  
-6. `doc/GAS.md` + `doc/SWC-AUDIT.md` — tradeoffs y seguridad  
+6. `doc/GAS-ES.md` + `doc/SWC-AUDIT-ES.md` — tradeoffs y seguridad  
 
 ---
 
